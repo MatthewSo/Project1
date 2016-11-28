@@ -4,23 +4,13 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-void input(){
-  pid_t past = getpid();
-  int status;
-  fork();
-  wait(&status);
-  //printf("PPid: %d, Pid: %d\n", getppid(), getpid());
-  if (getppid() == past) {
 
-
-  printf("Enter command: ");
-  char *a = calloc(1,255);
-  fgets(a, 255, stdin);
+void breakUp(char * a, char * ret[]){
   a = strsep(&a, "\n"); //Remove newline since "the newline is retained."
   //printf("%s\n", a);
 
   char *s;
-  char *ret[20];
+ 
   int i = 0;
 
   while(a){
@@ -31,20 +21,49 @@ void input(){
     i++;
   }
   ret[i] = 0;
-
-  free(a);
-
-  execvp(ret[0], ret);
 }
-}
+  
+
+ int runCD(char * s, char * full[]){ 
+  if (s[0] == 'c' && s[1] == 'd' && s[2] == ' '){ 
+    
+     execvp(full[0], full);  
+     return 1; 
+   } 
+   else{ 
+     return 0;}
+ }
+
+
+  void input(){
+    pid_t past = getpid();
+    int status;
+  
+    fork();
+    wait(&status);
+    //printf("PPid: %d, Pid: %d\n", getppid(), getpid());
+    printf("Enter command: ");
+    char *a = calloc(1,255);
+    fgets(a, 255, stdin);
+    char* ret[20];
+    breakUp(a, ret);
+    free(a);
+  
+    if (getppid() == past) {
+      execvp(ret[0], ret); 
+    }
+    if (getpid() == past){
+      runCD(a, ret);
+    }
+  }
 
 
 int main(){
-
-for (size_t i = 0; i < 10; i++) {
-  input();
-}
-
+  int i = 0;
+  for (; i < 10; i++) {
+    input();
+  }
+  
 
 
 
