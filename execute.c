@@ -1,16 +1,59 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
 
+char * username = "darthbeep";
+char * otherusername = "shpeters";
+char * path = "/";
+char * backup = "";
+char * locations[255];
+int locnum = 0;
 
-void breakUp(char * a, char * ret[]){
+int checkCD(char * com[]) {
+  if (strcmp(com[0], "cd") == 0) {
+    if (com[1] == NULL) {
+      path = backup;
+      locations[0] = "~";
+      locnum = 0;
+    }
+    else {
+      path = (char *) malloc(sizeof(char) + sizeof(com[1]) + 1);
+      strcat(path, com[1]);
+      strcat(path, "/");
+      if (strcmp(com[1], "..") == 0) {
+        locnum--;
+      }
+      else {
+      locnum++;
+      locations[locnum] = com[1];}
+    }
+    printf("Path: %s\n", path);
+    chdir(path);
+    return 1;
+  }
+  return 0;
+}
+
+void input(){
+  pid_t past = getpid();
+  int status;
+  fork();
+  wait(&status);
+  //printf("PPid: %d, Pid: %d\n", getppid(), getpid());
+  if (getppid() == past) {
+
+
+  printf("%s:%s %s$ ", username, locations[locnum], otherusername);
+  char *a = calloc(1,255);
+  fgets(a, 255, stdin);
   a = strsep(&a, "\n"); //Remove newline since "the newline is retained."
   //printf("%s\n", a);
 
   char *s;
- 
+  char *ret[20];
   int i = 0;
 
   while(a){
@@ -21,49 +64,24 @@ void breakUp(char * a, char * ret[]){
     i++;
   }
   ret[i] = 0;
-}
-  
 
- int runCD(char * s, char * full[]){ 
-  if (s[0] == 'c' && s[1] == 'd' && s[2] == ' '){ 
-    
-     execvp(full[0], full);  
-     return 1; 
-   } 
-   else{ 
-     return 0;}
+  free(a);
+ int c = checkCD(ret);
+ if (c == 0) {
+   execvp(ret[0], ret);
  }
 
 
-  void input(){
-    pid_t past = getpid();
-    int status;
-  
-    fork();
-    wait(&status);
-    //printf("PPid: %d, Pid: %d\n", getppid(), getpid());
-    printf("Enter command: ");
-    char *a = calloc(1,255);
-    fgets(a, 255, stdin);
-    char* ret[20];
-    breakUp(a, ret);
-    free(a);
-  
-    if (getppid() == past) {
-      execvp(ret[0], ret); 
-    }
-    if (getpid() == past){
-      runCD(a, ret);
-    }
-  }
+}
+}
 
 
 int main(){
-  int i = 0;
-  for (; i < 10; i++) {
-    input();
-  }
-  
+locations[0] = "~";
+for (size_t i = 0; i < 10; i++) {
+  input();
+}
+
 
 
 
