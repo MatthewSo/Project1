@@ -18,6 +18,7 @@ int checkCD(char * com[]) {
       path = backup;
       locations[0] = "~";
       locnum = 0;
+      chdir(getenv("HOME"));
     }
     else {
       path = (char *) malloc(sizeof(char) + sizeof(com[1]) + 1);
@@ -27,11 +28,12 @@ int checkCD(char * com[]) {
         locnum--;
       }
       else {
-      locnum++;
-      locations[locnum] = com[1];}
+        locnum++;
+        locations[locnum] = com[1];
+      }
+      chdir(path);
     }
-    printf("Path: %s\n", path);
-    chdir(path);
+    //chdir(path);
     return 1;
   }
   return 0;
@@ -77,8 +79,14 @@ void input(){
 
 
 int main(){
+  /*uid_t uid=geteuid();
+  struct passwd *pw = getpwuid(uid);
+  printf("%s\n", pw->pw_name);
+  printf("%s\n", uid);*/
+
 locations[0] = "~";
-for (size_t i = 0; i < 10; i++) {
+for (size_t i = 0; i < 100; i++) {
+  //printf("%d\n", i);
   input();
 }
 
