@@ -1,4 +1,4 @@
-
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,11 +33,16 @@ int checkCD(char * com[]) {
       }
       chdir(path);
     }
-    //chdir(path);
+    //chdir(path);                                                                                                                                                                                          
     return 1;
   }
   return 0;
 }
+int checkKill(char * com[]) {
+  if (strcmp(com[0], "kill") == 0) {
+    kill(getpid(),9);}
+  return 1;
+  return 0;}
 
 void input(){
   pid_t past = getpid();
@@ -66,15 +71,15 @@ void input(){
     i++;
   }
   ret[i] = 0;
-
+  
   free(a);
- int c = checkCD(ret);
- if (c == 0) {
+  checkKill(ret);
+  int c = checkCD(ret);
+  if (c == 0) {
    execvp(ret[0], ret);
  }
-
-
-}
+ 
+  }
 }
 
 
