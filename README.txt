@@ -18,36 +18,63 @@ Bugs:
 		
 	
 Files & Function Headers:
-parse.c
+execute.c
 	Handles all line parsing fucntions
-	/*======== int count_tokens() ==========
-	Inputs:  char *line
-        	  char delim 
-	Returns: Number of tokens in line separated by delim
+	
+        /*======== int checkCD() ==========
+	Inputs:  char * com[]
+        	  
+	Returns: 1 if first slot contains "cd" and the code is run. Else, 0
 
-	Counts the number of times the character delim appears in the
-	 string line
-	The number of tokens is 1 more than the number of appearences 
-	of delim
-	If delim does not appear, 1 is returned
+        Checks to see whether or not the user input uses the 
+	"cd" command by looking for "cd" in com[]. If so, changes the location
+	based on the input in com[]. Returns 1 if sucessful. 
+	Returns 0 if not.
 	====================*/
 
-	/*======== char ** parse_line() ==========
-	Inputs:  char *line 
-	Returns: Array of strings where each entry is a token 
-	separated by delim
+		/*======== int checkSemi() ==========
+	Inputs:  char * input
+	         int past
 
-	If line contains multiple tokens separated by delim, this 
-	function will put each token into an array of strings
+	Returns: 1 if no ';' is present in input. Else, returns 0
+
+        If ';' are present, parses input at instances of ';'. It runs all parsed
+	components and returns 1;
+	If none are present, returns 0.
+	
 	====================*/
 
-	/*======== char * trim() ==========
-	Inputs:  char *line 
-	Returns: Pointer to the beginning of line
+		/*======== int checkKill() ==========
+	Inputs:  char * com[]
+	Returns: 1 if exit is present in com[0] and the code is run. Else, 0.
 
-	Removes leading and trailing whitespace on the string line.
-	Terminating '\0' is placed at a new location if necessary.
+        Sees if com[0] is "exit." If it is, it kills the current process and returns 1.
+	Else, returns 0.
 	====================*/
+
+
+	/*======== void input() ==========
+	Inputs:  
+	Returns: void
+
+        Calls for command line input from user. Runs
+	commands given like a terminal shell. Creates
+	child processes to run commands (not including
+	exit and cd) and prints the results.
+	====================*/
+
+        /*======== void  runstuff() ==========
+	Inputs:  char * a
+	int past
+        	  
+	Returns: void
+
+        Parses char * a at occurences of " " and puts the 
+	components into char * ret[20]. After forking, will 
+	run the components of char * ret[20] in the process
+	whose parent PID is past.
+	====================*/
+
 
 dwsh.c
 	Handles the forking an executing of commands...

@@ -57,7 +57,7 @@ int checkCD(char * com[]) {
 }
 
 
-	/*======== int count_tokens() ==========
+	/*======== int checkSemi() ==========
 	Inputs:  char * input
 	         int past
 
@@ -111,7 +111,6 @@ int checkSemi(char * input, int past) {
         Sees if com[0] is "exit." If it is, it kills the current process and returns 1.
 	Else, returns 0.
 	====================*/
-
 
  int checkKill(char * com[]) {
    if (strcmp(com[0], "exit") == 0) {
