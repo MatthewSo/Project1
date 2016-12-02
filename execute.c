@@ -61,13 +61,10 @@ int checkCD(char * com[]) {
 	Inputs:  char * input
 	         int past
 
-	Returns: 0 if no ';' is present in input. Else, returns 0
+	Returns: 1 if no ';' is present in input. Else, returns 0
 
-	Counts the number of times the character delim appears in the
-	 string line
-	The number of tokens is 1 more than the number of appearences 
-	of delim
-	If delim does not appear, 1 is returned
+        If ';' are present, parses input at instances of ';'.
+	
 	====================*/
 
 
@@ -100,8 +97,9 @@ int checkSemi(char * input, int past) {
     }
     for (size_t l = 0; l < end; l++) {
         runstuff(coms[l], past);
-      }
+    }
   }
+  return 1;
 }
 
 	/*======== int checkKill() ==========
