@@ -100,7 +100,36 @@ int checkGreaterRedirect(char * input, int past){
   }
   }
 
+int checkLesserRedirect(char * input, int past){
+  if (strchr(input, '<') == NULL) {
+    return 0;
+  }
+  else {
+    char *s;
+    char *coms[20];
+    int end = 0;
+    while(input){
+      s = strsep(&input, "<");
+      coms[end] = s;
+      end++;
+    }
+    
+    FILE *f = fopen(coms[1], "rb");
+    fseek(f, 0, SEEK_END);
+    long fsize = ftell(f);
+    fseek(f, 0, SEEK_SET);
 
+    char *string = malloc(fsize + 1);
+    fread(string, fsize, 1, f);
+    string[fsize] = 0;
+    printf("%s\n",string);
+    fclose(f);
+
+    
+
+      return 1;
+  }
+  }
 
 
 	/*======== int checkSemi() ==========
