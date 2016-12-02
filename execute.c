@@ -27,31 +27,30 @@ int checkCD(char * com[]) {
       if (strcmp(com[1], "..") == 0) {
         locnum--;
       }
-      else {
-        locnum++;
-        locations[locnum] = com[1];
-      }
-      chdir(path);
-    }
-    //chdir(path);                                                                                                                                                                                          
-    return 1;
+      else { 
+         locnum++; 
+         locations[locnum] = com[1]; 
+       }
+       chdir(path); 
+     } 
+     //chdir(path);                                                                                                                                                                                           
+     return 1; 
+   } 
+   return 0; 
+ } 
+ int checkKill(char * com[]) { 
+   if (strcmp(com[0], "kill") == 0) { 
+    kill(getpid(),9); 
+    
   }
-  return 0;
-}
-int checkKill(char * com[]) {
-  if (strcmp(com[0], "kill") == 0) {
-    kill(getpid(),9);}
   return 1;
   return 0;}
 
 void input(){
   pid_t past = getpid();
   int status;
-  fork();
-  wait(&status);
-  //printf("PPid: %d, Pid: %d\n", getppid(), getpid());
-  if (getppid() == past) {
 
+  
 
   printf("%s:%s %s$ ", username, locations[locnum], otherusername);
   char *a = calloc(1,255);
@@ -75,6 +74,11 @@ void input(){
   free(a);
   checkKill(ret);
   int c = checkCD(ret);
+  
+  fork();
+  wait(&status);
+  //printf("PPid: %d, Pid: %d\n", getppid(), getpid());
+  if (getppid() == past) {
   if (c == 0) {
    execvp(ret[0], ret);
  }
