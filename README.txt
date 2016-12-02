@@ -1,5 +1,5 @@
 Getting Out of Our Shell!
-by Matthew So and Shaina
+by Matt and Shaina, The Dynamic Duo
 
 Features:
 	Forks and executes commands.

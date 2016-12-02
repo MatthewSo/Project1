@@ -14,6 +14,18 @@ char * backup = "";
 char * locations[255];
 int locnum = 0;
 
+        /*======== int checkCD() ==========
+	Inputs:  char * com[]
+        	  
+	Returns: 1 if first slot contains "cd" and the code is run. Else, 0
+
+        Checks to see whether or not the user input uses the 
+	"cd" command. If so, changes the location
+	based on the input in com[]. Returns 1 if sucessful. 
+	Returns 0 if not.
+	====================*/
+
+
 int checkCD(char * com[]) {
   if (strcmp(com[0], "cd") == 0) {
     if (com[1] == NULL) {
@@ -30,19 +42,33 @@ int checkCD(char * com[]) {
         locnum--;
       }
       else {
-         locnum++;
-         locations[locnum] = com[1];
-       }
-       int chd = chdir(path);
-       if (chd == -1) {
-         locnum--;
-       }
-     }
-     //chdir(path);
-     return 1;
-   }
-   return 0;
- }
+	locnum++;
+	locations[locnum] = com[1];
+      }
+      int chd = chdir(path);
+      if (chd == -1) {
+	locnum--;
+      }
+    }
+    //chdir(path);
+    return 1;
+  }
+  return 0;
+}
+
+
+	/*======== int count_tokens() ==========
+	Inputs:  char *line
+        	  char delim 
+	Returns: Number of tokens in line separated by delim
+
+	Counts the number of times the character delim appears in the
+	 string line
+	The number of tokens is 1 more than the number of appearences 
+	of delim
+	If delim does not appear, 1 is returned
+	====================*/
+
 
 int checkSemi(char * input, int past) {
   if (strchr(input, ';') == NULL) {
