@@ -81,11 +81,14 @@ int checkGreaterRedirect(char * input, int past){
 
     char buff[1024];
     while (fgets(buff, sizeof(buff), p)) {
-            write(fd, buff, sizeof(buff));
+      printf("");
+            //write(fd, buff, sizeof(buff));
+            fprintf(fp, "%s", buff);
     }
+    fclose(fp);
     pclose(p);
 
-    return 0;
+      return 1;
   }
   }
 
@@ -178,9 +181,9 @@ void input(){
   fgets(a, 255, stdin);
   a = strsep(&a, "\n"); //Remove newline since "the newline is retained."
   //printf("%s\n", a);
-  checkGreaterRedirect(a,past);
+  int redg = checkGreaterRedirect(a,past);
   int semi = checkSemi(a, past);
-  if (semi == 0) {
+  if (semi == 0 && redg == 0) {
   char *s;
   char *ret[20];
   int i = 0;
