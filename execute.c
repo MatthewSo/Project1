@@ -20,7 +20,7 @@ int locnum = 0;
 	Returns: 1 if first slot contains "cd" and the code is run. Else, 0
 
         Checks to see whether or not the user input uses the 
-	"cd" command. If so, changes the location
+	"cd" command by looking for "cd" in com[]. If so, changes the location
 	based on the input in com[]. Returns 1 if sucessful. 
 	Returns 0 if not.
 	====================*/
@@ -58,9 +58,10 @@ int checkCD(char * com[]) {
 
 
 	/*======== int count_tokens() ==========
-	Inputs:  char *line
-        	  char delim 
-	Returns: Number of tokens in line separated by delim
+	Inputs:  char * input
+	         int past
+
+	Returns: 0 if no ';' is present in input. Else, returns 0
 
 	Counts the number of times the character delim appears in the
 	 string line
@@ -102,6 +103,15 @@ int checkSemi(char * input, int past) {
       }
   }
 }
+
+	/*======== int checkKill() ==========
+	Inputs:  char * com[]
+	Returns: 1 if exit is present in com[0] and the code is run. Else, 0.
+
+        Sees if com[0] is "exit." If it is, it kills the current process and returns 1.
+	Else, returns 0.
+	====================*/
+
 
  int checkKill(char * com[]) {
    if (strcmp(com[0], "exit") == 0) {
