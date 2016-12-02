@@ -4,6 +4,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 
 void runstuff(char *, int);
 
@@ -16,12 +18,12 @@ int locnum = 0;
 
         /*======== int checkCD() ==========
 	Inputs:  char * com[]
-        	  
+
 	Returns: 1 if first slot contains "cd" and the code is run. Else, 0
 
-        Checks to see whether or not the user input uses the 
+        Checks to see whether or not the user input uses the
 	"cd" command by looking for "cd" in com[]. If so, changes the location
-	based on the input in com[]. Returns 1 if sucessful. 
+	based on the input in com[]. Returns 1 if sucessful.
 	Returns 0 if not.
 	====================*/
 
@@ -71,12 +73,24 @@ int checkGreaterRedirect(char * input, int past){
     }
     FILE *fp;
     fp = fopen(coms[1], "w");
-    fprintf(fp,"hello");
-    return 1;}
-  }
-    
+    int fd = open(coms[1], O_RDWR | O_CREAT, 0666);
+    //fprintf(fp,"hello");
+    //return 1;
+    FILE* p = popen(coms[0], "r");
+    if (!p) return 1;
 
-    
+    char buff[1024];
+    while (fgets(buff, sizeof(buff), p)) {
+            write(fd, buff, sizeof(buff));
+    }
+    pclose(p);
+
+    return 0;
+  }
+  }
+
+
+
 
 	/*======== int checkSemi() ==========
 	Inputs:  char * input
@@ -87,7 +101,7 @@ int checkGreaterRedirect(char * input, int past){
         If ';' are present, parses input at instances of ';'. It runs all parsed
 	components and returns 1;
 	If none are present, returns 0.
-	
+
 	====================*/
 
 
@@ -140,7 +154,7 @@ int checkSemi(char * input, int past) {
   return 0;}
 
 	/*======== void input() ==========
-	Inputs:  
+	Inputs:
 	Returns: void
 
         Calls for command line input from user. Runs
@@ -159,7 +173,7 @@ void input(){
   char location[1024];
   getcwd(location, sizeof(location));
   printf("%s:%s %s$ ", username, location, otherusername);
-  
+
   char *a = calloc(1,255);
   fgets(a, 255, stdin);
   a = strsep(&a, "\n"); //Remove newline since "the newline is retained."
@@ -202,11 +216,11 @@ void input(){
         /*======== void  runstuff() ==========
 	Inputs:  char * a
 	int past
-        	  
+
 	Returns: void
 
-        Parses char * a at occurences of " " and puts the 
-	components into char * ret[20]. After forking, will 
+        Parses char * a at occurences of " " and puts the
+	components into char * ret[20]. After forking, will
 	run the components of char * ret[20] in the process
 	whose parent PID is past.
 	====================*/
