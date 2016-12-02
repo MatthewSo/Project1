@@ -63,7 +63,9 @@ int checkCD(char * com[]) {
 
 	Returns: 1 if no ';' is present in input. Else, returns 0
 
-        If ';' are present, parses input at instances of ';'.
+        If ';' are present, parses input at instances of ';'. It runs all parsed
+	components and returns 1;
+	If none are present, returns 0.
 	
 	====================*/
 
@@ -117,6 +119,18 @@ int checkSemi(char * input, int past) {
     return 1;}
   return 0;}
 
+	/*======== void input() ==========
+	Inputs:  
+	Returns: void
+
+        Calls for command line input from user. Runs
+	commands given like a terminal shell. Creates
+	child processes to run commands (not including
+	exit and cd) and prints the results.
+	====================*/
+
+
+
 void input(){
   pid_t past = getpid();
   int status;
@@ -161,6 +175,19 @@ void input(){
   }*/
   }
 }
+
+        /*======== void  runstuff() ==========
+	Inputs:  char * a
+	int past
+        	  
+	Returns: void
+
+        Parses char * a at occurences of " " and puts the 
+	components into char * ret[20]. After forking, will 
+	run the components of char * ret[20] in the process
+	whose parent PID is past.
+	====================*/
+
 
 void runstuff(char * a, int past) {
   char * ret[20];
