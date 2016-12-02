@@ -39,11 +39,9 @@ int checkCD(char * com[]) {
    return 0; 
  } 
  int checkKill(char * com[]) { 
-   if (strcmp(com[0], "kill") == 0) { 
+   if (strcmp(com[0], "exit") == 0) { 
     kill(getpid(),9); 
-    
-  }
-  return 1;
+    return 1;}
   return 0;}
 
 void input(){
@@ -72,17 +70,20 @@ void input(){
   ret[i] = 0;
   
   free(a);
-  checkKill(ret);
+  if (checkKill(ret)){
+    return;}
   int c = checkCD(ret);
-  
-  fork();
-  wait(&status);
-  //printf("PPid: %d, Pid: %d\n", getppid(), getpid());
-  if (getppid() == past) {
+
   if (c == 0) {
-   execvp(ret[0], ret);
- }
- 
+    fork();
+    wait(&status);
+    //printf("PPid: %d, Pid: %d\n", getppid(), getpid());
+    
+    if (getppid() == past) {
+      printf("%d\n",c);
+      
+      execvp(ret[0], ret);
+    }
   }
 }
 
