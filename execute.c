@@ -71,9 +71,17 @@ int checkGreaterRedirect(char * input, int past){
       coms[end] = s;
       end++;
     }
+    int k = 0;
+    while (coms[1][k] == ' ') {
+      coms[1]++;
+      //k++;
+    }
+    if (coms[0][strlen(coms[0])-1]==' ') {
+      coms[0][strlen(coms[0])-1] = 0;
+    }
+
     FILE *fp;
     fp = fopen(coms[1], "w");
-    int fd = open(coms[1], O_RDWR | O_CREAT, 0666);
     //fprintf(fp,"hello");
     //return 1;
     FILE* p = popen(coms[0], "r");
@@ -181,8 +189,8 @@ void input(){
   fgets(a, 255, stdin);
   a = strsep(&a, "\n"); //Remove newline since "the newline is retained."
   //printf("%s\n", a);
-  int redg = checkGreaterRedirect(a,past);
   int semi = checkSemi(a, past);
+  int redg = checkGreaterRedirect(a,past);
   if (semi == 0 && redg == 0) {
   char *s;
   char *ret[20];
