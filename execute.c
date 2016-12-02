@@ -56,6 +56,27 @@ int checkCD(char * com[]) {
   return 0;
 }
 
+int checkGreaterRedirect(char * input, int past){
+    if (strchr(input, '>') == NULL) {
+    return 0;
+  }
+  else {
+    char *s;
+    char *coms[20];
+    int end = 0;
+    while(input){
+      s = strsep(&input, ">");
+      coms[end] = s;
+      end++;
+    }
+    FILE *fp;
+    fp = fopen(coms[1], "w");
+    fprintf(fp,"hello");
+    return 1;}
+  }
+    
+
+    
 
 	/*======== int checkSemi() ==========
 	Inputs:  char * input
@@ -143,6 +164,7 @@ void input(){
   fgets(a, 255, stdin);
   a = strsep(&a, "\n"); //Remove newline since "the newline is retained."
   //printf("%s\n", a);
+  checkGreaterRedirect(a,past);
   int semi = checkSemi(a, past);
   if (semi == 0) {
   char *s;
@@ -205,6 +227,7 @@ void runstuff(char * a, int past) {
   ret[i] = 0;
 
   free(a);
+
   if (checkKill(ret)){
     return;}
   int c = checkCD(ret);
