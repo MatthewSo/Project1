@@ -135,8 +135,10 @@ void input(){
   int status;
 
 
-
-  printf("%s:%s %s$ ", username, locations[locnum], otherusername);
+  char location[1024];
+  getcwd(location, sizeof(location));
+  printf("%s:%s %s$ ", username, location, otherusername);
+  
   char *a = calloc(1,255);
   fgets(a, 255, stdin);
   a = strsep(&a, "\n"); //Remove newline since "the newline is retained."

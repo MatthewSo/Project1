@@ -12,7 +12,7 @@ Attempted:
 	Returning folder directory in the terminal on comand line.
 
 Bugs:
-	Putting two ;'s next to each other will break the parser
+	Putting two ;'s next to each other will lead to errors. 
 	Redirecting to a file that does not exist occasionally
 		does not work.
 		
