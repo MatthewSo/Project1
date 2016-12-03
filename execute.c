@@ -52,11 +52,22 @@ int checkCD(char * com[]) {
 	locnum--;
       }
     }
-    //chdir(path);
     return 1;
   }
   return 0;
 }
+
+        /*======== int checkGreaterRedirect() ==========
+	Inputs:  char * input
+	         int past
+
+	Returns: 1 if first slot contains ">" and the code is run. Else, 0
+
+        Checks to see whether or not the user input uses
+	">" by looking for "<" in com[]. If so, directs the stdout of the command (on left)
+	into the file given (on right). Returns 1 if sucessful.
+	Returns 0 if not.
+	====================*/
 
 int checkGreaterRedirect(char * input, int past){
     if (strchr(input, '>') == NULL) {
@@ -74,7 +85,6 @@ int checkGreaterRedirect(char * input, int past){
     int k = 0;
     while (coms[1][k] == ' ') {
       coms[1]++;
-      //k++;
     }
     if (coms[0][strlen(coms[0])-1]==' ') {
       coms[0][strlen(coms[0])-1] = 0;
@@ -82,15 +92,12 @@ int checkGreaterRedirect(char * input, int past){
 
     FILE *fp;
     fp = fopen(coms[1], "w");
-    //fprintf(fp,"hello");
-    //return 1;
     FILE* p = popen(coms[0], "r");
     if (!p) return 1;
 
     char buff[1024];
     while (fgets(buff, sizeof(buff), p)) {
       printf("");
-            //write(fd, buff, sizeof(buff));
             fprintf(fp, "%s", buff);
     }
     fclose(fp);
@@ -106,6 +113,48 @@ int checkGreaterRedirect(char * input, int past){
   }
   return 1;
 }*/
+        /*======== int checkLesserRedirect() ==========
+	Inputs:  char * input
+	         int past
+
+	Returns: 1 if first slot contains "<" and the code is run. Else, 0
+
+        Checks to see whether or not the user input uses
+	"<" by looking for "<" in com[]. If so, directs the file (right) as the stdin
+	for the command given (left). Returns 1 if sucessful.
+	Returns 0 if not.
+	====================*/
+
+int checkLesserRedirect(char * input, int past){
+  if (strchr(input, '<') == NULL) {
+    return 0;
+  }
+  else {
+    char *s;
+    char *coms[20];
+    int end = 0;
+    while(input){
+      s = strsep(&input, "<");
+      coms[end] = s;
+      end++;
+    }
+
+    FILE *f = fopen(coms[1], "rb");
+    fseek(f, 0, SEEK_END);
+    long fsize = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
+    char *string = malloc(fsize + 1);
+    fread(string, fsize, 1, f);
+    string[fsize] = 0;
+    printf("%s\n",string);
+    fclose(f);
+
+
+
+      return 1;
+  }
+  }
 
 
 	/*======== int checkSemi() ==========
@@ -120,31 +169,38 @@ int checkGreaterRedirect(char * input, int past){
 
 	====================*/
 
-int checkPipe(char * input, int past) {
-  if (strchr(input, '|') == NULL) {
-    return 0;
-  }
-  char *s;
-  char *coms[20];
-  int end = 0;
+  int checkPipe(char * input, int past) {
+    if (strchr(input, '|') == NULL) {
+      return 0;
+    }
+    char *s;
+    char *coms[20];
+    int end = 0;
 
-  while(input){
-    s = strsep(&input, "|");
-    //printf("%s\n", s);
-    coms[end] = s;
-    //printf("%s\n",ret[i]);
-    end++;
+    while(input){
+      s = strsep(&input, "|");
+      coms[end] = s;
+      end++;
+    }
+    if (coms[0][strlen(coms[0])-1] == ' ') {
+      coms[0][strlen(coms[0])-1] = 0;
+    }
+    if (coms[1][0] == ' ') {
+      coms[1]++;
+    }
+    fopen("verytemporaryfile", "w");
+    char * replace = "> verytemporaryfile";
+    char * new = (char *) malloc(sizeof(char));
+    strcat(new, coms[0]);
+    strcat(new, replace);
+    checkGreaterRedirect(new, past);
+    char * othernew= (char *) malloc(sizeof(coms[1]) + 20);
+    strcat(othernew, coms[1]);
+    strcat(othernew, " verytemporaryfile");
+    runstuff(othernew, past);
+    execlp("rm", "rm", "verytemporaryfile");
+    return 1;
   }
-  fopen("verytemporaryfile", "w");
-  char * replace = "< verytemporaryfile >";
-  char * new = (char *) malloc(sizeof(char));
-  strcat(new, coms[0]);
-  strcat(new, replace);
-  strcat(new, coms[1]);
-  printf("%s\n", new);
-  checkGreaterRedirect(new, past);
-  return 1;
-}
 
 int checkSemi(char * input, int past) {
   if (strchr(input, ';') == NULL) {
@@ -157,21 +213,16 @@ int checkSemi(char * input, int past) {
 
     while(input){
       s = strsep(&input, ";");
-      //printf("%s\n", s);
       coms[end] = s;
-      //printf("%s\n",ret[i]);
       end++;
     }
     coms[end] = 0;
     for (size_t j = 0; j < end; j++) {
-      //printf("%s\n", coms[j]);
       int k = 0;
       while (coms[j][k] == ' ') {
         coms[j]++;
-        //k++;
       }
 
-      //printf("%s\n", coms[j]);
     }
     for (size_t l = 0; l < end; l++) {
         runstuff(coms[l], past);
@@ -206,56 +257,30 @@ int checkSemi(char * input, int past) {
 
 
 
-void input(){
-  pid_t past = getpid();
-  int status;
+  void input(){
+    pid_t past = getpid();
+    int status;
 
 
-  char location[1024];
-  getcwd(location, sizeof(location));
-  printf("%s:%s %s$ ", username, location, otherusername);
+    char location[1024];
+    getcwd(location, sizeof(location));
+    printf("%s:%s %s$ ", username, location, otherusername);
 
-  char *a = calloc(1,255);
-  fgets(a, 255, stdin);
-  a = strsep(&a, "\n"); //Remove newline since "the newline is retained."
-  //printf("%s\n", a);
-  int pipe = checkPipe(a, past);
-  int semi = 0;
-  int redg = 0;
-  if (pipe == 0) { semi = checkSemi(a, past);}
-  if (pipe == 0) { redg = checkGreaterRedirect(a,past);}
-  if (semi == 0 && redg == 0) {
-  char *s;
-  char *ret[20];
-  int i = 0;
-  runstuff(a, past);
-  /*while(a){
-    s = strsep(&a, " ");
-    //printf("%s\n", s);
-    ret[i] = s;
-    //printf("%s\n",ret[i]);
-    i++;
-  }
-  ret[i] = 0;
-
-  free(a);
-  if (checkKill(ret)){
-    return;}
-  int c = checkCD(ret);
-
-  if (c == 0) {
-    fork();
-    wait(&status);
-    //printf("PPid: %d, Pid: %d\n", getppid(), getpid());
-
-    if (getppid() == past) {
-      //printf("%d\n",c);
-
-      execvp(ret[0], ret);
+    char *a = calloc(1,255);
+    fgets(a, 255, stdin);
+    a = strsep(&a, "\n"); //Remove newline since "the newline is retained."
+    int pipe = checkPipe(a, past);
+    int semi = 0;
+    int redg = 0;
+    if (pipe == 0) { semi = checkSemi(a, past);}
+    if (pipe == 0) { redg = checkGreaterRedirect(a,past);}
+    if (semi == 0 && redg == 0 && pipe == 0) {
+    char *s;
+    char *ret[20];
+    int i = 0;
+    runstuff(a, past);
     }
-  }*/
   }
-}
 
         /*======== void  runstuff() ==========
 	Inputs:  char * a
@@ -284,7 +309,6 @@ void runstuff(char * a, int past) {
     else {
       add--;
     }
-    //printf("%s\n",ret[i]);
     i++;
   }
   ret[i + add] = 0;
@@ -298,10 +322,8 @@ void runstuff(char * a, int past) {
   if (c == 0) {
     fork();
     wait(&status);
-    //printf("PPid: %d, Pid: %d\n", getppid(), getpid());
 
     if (getppid() == past) {
-      //printf("%d\n",c);
 
       execvp(ret[0], ret);
     }
@@ -309,14 +331,9 @@ void runstuff(char * a, int past) {
 }
 
 int main(){
-  /*uid_t uid=geteuid();
-  struct passwd *pw = getpwuid(uid);
-  printf("%s\n", pw->pw_name);
-  printf("%s\n", uid);*/
 
 locations[0] = "~";
 for (size_t i = 0; i < 100; i++) {
-  //printf("%d\n", i);
   input();
 }
 
