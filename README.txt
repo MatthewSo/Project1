@@ -30,7 +30,7 @@ int checkKill(char * []) ;
 void input();
 void runstuff(char * , int ) ;
 execute.c
-	Handles all line parsing fucntions
+	Handles all shell fucntions
 	
         /*======== int checkCD() ==========
 	Inputs:  char * com[]

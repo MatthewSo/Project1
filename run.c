@@ -142,18 +142,18 @@ int checkLesserRedirect(char * input, int past){
 }
 
 
-/*======== int checkSemi() ==========
-  Inputs:  char * input
-           int past
-	      Returns: 1 if no ';' is present in input. Else, returns 0
-        If ';' are present, parses input at instances of ';'. It runs all parsed
-	components and returns 1;
-	If none are present, returns 0.
-	====================*/
+
+/*======== int checkPipe() ==========
+    Inputs:  char * input
+    int past
+    
+    Parses input at|. Thenuses the returnof the first command
+    as the stdin ofthe second command.
+    
+    ====================*/
 
 int checkPipe(char * input, int past) {
-  if (strchr(input, '|') == NULL) {
-    return 0;
+  if (strchr(input, '|') == NULL) {    return 0;
   }
   char *s;
   char *coms[20];
