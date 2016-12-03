@@ -1,5 +1,8 @@
-main.o:
-	gcc execute.c check.c -o main
+compile: run.c
+	gcc run.c
+
+run:
+	./a.out
 
 clean:
-	rm main
+	rm *~
