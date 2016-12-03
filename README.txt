@@ -4,12 +4,13 @@ by Matt and Shaina, The Dynamic Duo
 Features:
 	Forks and executes commands.
 	Runs multiple commands on one line divided by ';.
+	Tells user current folder
 	Uses <,> to redirect.
 	Uses | to pipe.
 
 Attempted:
 	We tried to get the following to work:
-	Returning folder directory in the terminal on comand line.
+	Getting name of user
 
 Bugs:
 	Putting two ;'s next to each other will lead to errors.
@@ -20,6 +21,14 @@ Bugs:
 		    	 
 			 
 Files & Function Headers:
+int checkCD(char * []) ;
+int checkGreaterRedirect(char * , int );
+int checkLesserRedirect(char * , int );
+int checkPipe(char * , int ) ;
+int checkSemi(char * , int ) ;
+int checkKill(char * []) ;
+void input();
+void runstuff(char * , int ) ;
 execute.c
 	Handles all line parsing fucntions
 	
@@ -54,6 +63,17 @@ execute.c
 	for the command given (left). Returns 1 if sucessful.
 	Returns 0 if not.
 	====================*/
+
+                
+
+        /*======== int checkPipe() ==========
+      		  Inputs:  char * input
+                         int past
+
+                Parses input at	|. Then	uses the return	of the first command
+		       as the stdin of	the second command.
+
+        ====================*/
 
 		/*======== int checkSemi() ==========
 		Inputs:  char * input
