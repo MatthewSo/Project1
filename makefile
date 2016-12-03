@@ -1,8 +1,6 @@
-compile: run.c
-	gcc run.c
-
-run:
-	./a.out
-
+stat:run.c
+	gcc -o run run.c
+run:run
+	./run
 clean:
-	rm *~
+	rm ~*
