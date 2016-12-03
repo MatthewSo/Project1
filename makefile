@@ -1,8 +1,9 @@
 compile: run.c
-	gcc run.c
+	gcc run.c run.h
 
-run:
+run: a.out
 	./a.out
 
 clean:
+	rm a.out
 	rm *~

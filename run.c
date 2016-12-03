@@ -193,7 +193,7 @@ int checkPipe(char * input, int past) {
         If ';' are present, parses input at instances of ';'. It runs all parsed
 	components and returns 1;
 	If none are present, returns 0.
-	
+
 	====================*/
 
 int checkSemi(char * input, int past) {
