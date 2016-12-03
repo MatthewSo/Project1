@@ -12,7 +12,9 @@ Attempted:
 	Returning folder directory in the terminal on comand line.
 
 Bugs:
-	Putting two ;'s next to each other will lead to errors. 
+	Putting two ;'s next to each other will lead to errors.
+	Incorrect commands will lead to additional forked processes
+	that will need to be exited.
 	Redirecting to a file that does not exist occasionally
 		does not work.
 		
@@ -29,6 +31,27 @@ execute.c
         Checks to see whether or not the user input uses the 
 	"cd" command by looking for "cd" in com[]. If so, changes the location
 	based on the input in com[]. Returns 1 if sucessful. 
+	Returns 0 if not.
+	====================*/
+
+	
+        /*======== int checkGreaterRedirect() ==========
+	Inputs:  char * input
+	         int past
+	Returns: 1 if first slot contains ">" and the code is run. Else, 0
+        Checks to see whether or not the user input uses
+	">" by looking for "<" in com[]. If so, directs the stdout of the command (on left)
+	into the file given (on right). Returns 1 if sucessful.
+	Returns 0 if not.
+	====================*/
+
+	        /*======== int checkLesserRedirect() ==========
+	Inputs:  char * input
+	         int past
+	Returns: 1 if first slot contains "<" and the code is run. Else, 0
+        Checks to see whether or not the user input uses
+	"<" by looking for "<" in com[]. If so, directs the file (right) as the stdin
+	for the command given (left). Returns 1 if sucessful.
 	Returns 0 if not.
 	====================*/
 
@@ -76,8 +99,3 @@ execute.c
 	====================*/
 
 
-dwsh.c
-	Handles the forking an executing of commands...
-
-magical.c
-	UNOCORNS!	
