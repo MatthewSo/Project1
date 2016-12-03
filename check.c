@@ -6,7 +6,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#include "execute.c"
+#include "check.h"
 
         /*======== int checkCD() ==========
 	Inputs:  char * com[]
