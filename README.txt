@@ -16,6 +16,7 @@ Bugs:
 	Putting two ;'s next to each other will lead to errors.
 	Incorrect commands will lead to additional forked processes
 	that will need to be exited.
+	< is sometimes buggy and does not return correct value.
 	Redirecting to a file that does not exist occasionally
 		    does not work.
 		    	 
