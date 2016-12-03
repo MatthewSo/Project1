@@ -100,7 +100,12 @@ int checkGreaterRedirect(char * input, int past){
   }
   }
 
-
+/*int checkLesserRedirect(char * input, int path) {
+  if (strchr(input)) {
+    return 0;
+  }
+  return 1;
+}*/
 
 
 	/*======== int checkSemi() ==========
@@ -115,6 +120,31 @@ int checkGreaterRedirect(char * input, int past){
 
 	====================*/
 
+int checkPipe(char * input, int past) {
+  if (strchr(input, '|') == NULL) {
+    return 0;
+  }
+  char *s;
+  char *coms[20];
+  int end = 0;
+
+  while(input){
+    s = strsep(&input, "|");
+    //printf("%s\n", s);
+    coms[end] = s;
+    //printf("%s\n",ret[i]);
+    end++;
+  }
+  fopen("verytemporaryfile", "w");
+  char * replace = "< verytemporaryfile >";
+  char * new = (char *) malloc(sizeof(char));
+  strcat(new, coms[0]);
+  strcat(new, replace);
+  strcat(new, coms[1]);
+  printf("%s\n", new);
+  checkGreaterRedirect(new, past);
+  return 1;
+}
 
 int checkSemi(char * input, int past) {
   if (strchr(input, ';') == NULL) {
@@ -189,8 +219,11 @@ void input(){
   fgets(a, 255, stdin);
   a = strsep(&a, "\n"); //Remove newline since "the newline is retained."
   //printf("%s\n", a);
-  int semi = checkSemi(a, past);
-  int redg = checkGreaterRedirect(a,past);
+  int pipe = checkPipe(a, past);
+  int semi = 0;
+  int redg = 0;
+  if (pipe == 0) { semi = checkSemi(a, past);}
+  if (pipe == 0) { redg = checkGreaterRedirect(a,past);}
   if (semi == 0 && redg == 0) {
   char *s;
   char *ret[20];
@@ -242,14 +275,19 @@ void runstuff(char * a, int past) {
   char * s;
   int i = 0;
   int status;
+  int add = 0;
   while(a){
     s = strsep(&a, " ");
-    //printf("%s\n", s);
-    ret[i] = s;
+    if (strcmp(s, "<")!=0) {
+      ret[i + add] = s;
+    }
+    else {
+      add--;
+    }
     //printf("%s\n",ret[i]);
     i++;
   }
-  ret[i] = 0;
+  ret[i + add] = 0;
 
   free(a);
 
