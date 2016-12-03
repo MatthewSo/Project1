@@ -58,7 +58,7 @@ int checkCD(char * com[]) {
 /*======== int checkGreaterRedirect() ==========
   Inputs:  char * input
            int past
-	   Returns: 1 if first slot contains ">" and the code is run. Else, 0
+	      Returns: 1 if first slot contains ">" and the code is run. Else, 0
         Checks to see whether or not the user input uses
 	">" by looking for "<" in com[]. If so, directs the stdout of the command (on left)
 	into the file given (on right). Returns 1 if sucessful.
@@ -112,7 +112,7 @@ int checkGreaterRedirect(char * input, int past){
 /*======== int checkLesserRedirect() ==========
   Inputs:  char * input
            int past
-	   Returns: 1 if first slot contains "<" and the code is run. Else, 0
+	      Returns: 1 if first slot contains "<" and the code is run. Else, 0
         Checks to see whether or not the user input uses
 	"<" by looking for "<" in com[]. If so, directs the file (right) as the stdin
 	for the command given (left). Returns 1 if sucessful.
@@ -154,7 +154,7 @@ int checkLesserRedirect(char * input, int past){
 /*======== int checkSemi() ==========
   Inputs:  char * input
            int past
-	   Returns: 1 if no ';' is present in input. Else, returns 0
+	      Returns: 1 if no ';' is present in input. Else, returns 0
         If ';' are present, parses input at instances of ';'. It runs all parsed
 	components and returns 1;
 	If none are present, returns 0.
