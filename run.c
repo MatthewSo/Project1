@@ -1,13 +1,4 @@
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-
-void runstuff(char *, int);
+#include "run.h"
 
 char * username = "darthbeep";
 char * otherusername = "shpeters";
@@ -192,6 +183,18 @@ int checkPipe(char * input, int past) {
   execlp("rm", "rm", "verytemporaryfile");
   return 1;
 }
+
+/*======== int checkSemi() ==========
+  Inputs:  char * input
+           int past
+
+	    Returns: 1 if no ';' is present in input. Else, returns 0
+
+        If ';' are present, parses input at instances of ';'. It runs all parsed
+	components and returns 1;
+	If none are present, returns 0.
+	
+	====================*/
 
 int checkSemi(char * input, int past) {
   if (strchr(input, ';') == NULL) {
