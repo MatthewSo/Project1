@@ -1,7 +1,7 @@
 #include "run.h"
 
-char * username = "darthbeep";
-char * otherusername = "shpeters";
+char * username = "Socrates";
+char * otherusername = "DW";
 char * path = "/";
 char * backup = "";
 char * locations[255];
