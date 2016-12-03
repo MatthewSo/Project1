@@ -58,6 +58,18 @@ int checkCD(char * com[]) {
   return 0;
 }
 
+        /*======== int checkGreaterRedirect() ==========
+	Inputs:  char * input
+	         int past
+
+	Returns: 1 if first slot contains ">" and the code is run. Else, 0
+
+        Checks to see whether or not the user input uses
+	">" by looking for "<" in com[]. If so, directs the stdout of the command (on left)
+	into the file given (on right). Returns 1 if sucessful.
+	Returns 0 if not.
+	====================*/
+
 int checkGreaterRedirect(char * input, int past){
     if (strchr(input, '>') == NULL) {
     return 0;
@@ -99,6 +111,18 @@ int checkGreaterRedirect(char * input, int past){
       return 1;
   }
   }
+
+        /*======== int checkLesserRedirect() ==========
+	Inputs:  char * input
+	         int past
+
+	Returns: 1 if first slot contains "<" and the code is run. Else, 0
+
+        Checks to see whether or not the user input uses
+	"<" by looking for "<" in com[]. If so, directs the file (right) as the stdin
+	for the command given (left). Returns 1 if sucessful.
+	Returns 0 if not.
+	====================*/
 
 int checkLesserRedirect(char * input, int past){
   if (strchr(input, '<') == NULL) {
