@@ -7,3 +7,10 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include "check.h"
+#ifndef EXECUTE
+#define EXECUTE
+
+void runstuff(char *, int);
+void input();
+
+#endif
